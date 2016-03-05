@@ -25,7 +25,7 @@ namespace PSAttack.PSAttackShell
         {
             get
             {
-                return new System.Management.Automation.Host.Size(Console.BufferWidth, Console.BufferHeight);
+                return new System.Management.Automation.Host.Size(120, 3000);
             }
             set
             {
