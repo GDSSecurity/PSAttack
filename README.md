@@ -40,14 +40,14 @@ You can find a list of commands included in PS>Attack [here](https://docs.google
 
 
 #### How to use it
-PS>Attack is available as a pre-compiled binary on the [releases tab](https://www.github.com/jaredhaight/PSAttack/releases/). No setup or install is required, you can just download it and run.
+PS>Attack is available as a pre-compiled binary on the [releases tab](https://www.github.com/gdssecurity/PSAttack/releases/). No setup or install is required, you can just download it and run.
 
 Another option is to use the [PS>Attack Build Tool](https://www.github.com/jaredhaight/PSAttackBuildTool). The build tool handles downloading PS>Attack, updating the modules to the latest versions, encrypting them with a unique key and then compiling the whole thing. The end result is a custom version of PS>Attack that has all the latest tools and a custom file signature thanks to the unique key.
 
 Of course, you can also just clone the repo and compile the code yourself. You can use Visual Studio Community Edition to work with it and compie it.
 
 #### Contact Info
-If you have any questions or suggestions for PS>Attack, feel free to submit an issue or you can reachout on [twitter](https://www.twitter.com/jaredhaight) or via email: jaredhaight `at` prontonmail.com
+If you have any questions or suggestions for PS>Attack, feel free to submit an issue or you can reachout on [twitter](https://www.twitter.com/jaredhaight) or via email: jhaight `at` gdssecurity.com
 
 #### Gr33tz
 PS>Attack was inspired by and benefits from a lot of incredible people in the PowerShell community. Particularly [mattifiestation](https://twitter.com/mattifestation) of PowerSploit and [sixdub](https://twitter.com/sixdub), [engima0x3](https://twitter.com/enigma0x3) and [harmj0y](https://twitter.com/HarmJ0y) of Empire. Besides writing the modules and commands that give PS>Attack it's punch, their various projects have inspired a lot of my approach to this project as well as my decision to try and contribute something back to the community.
