@@ -52,35 +52,37 @@ namespace PSAttack
                 isAdmin = true;
                 System.Diagnostics.Process.EnterDebugMode();
             }
-            // setup debug variable
-            String debugCmd = "$debug = @{'.NET'='" + System.Environment.Version + "';'isAdmin'='" + isAdmin + "'}";
-            attackState.cmd = debugCmd;
-            Processing.PSExec(attackState);
-
+            
             // Setup Console
             Console.Title = Strings.windowTitle;
             Console.BufferHeight = Int16.MaxValue - 10;
             Console.BackgroundColor = PSColors.background;
             Console.Clear();
 
-            // Display alpha warning
-            //Console.ForegroundColor = PSColors.errorText;
-            //Console.WriteLine(Strings.warning);
-
-            // display intro text
-            Console.ForegroundColor = PSColors.introText;
+            // get build info
             string buildString;
             string attackDate = new StreamReader(assembly.GetManifestResourceStream("PSAttack.Resources.attackDate.txt")).ReadToEnd();
+            Boolean builtWithBuildTool = true;
             if (attackDate.Length > 12)
-            {
+            {                
                 buildString = "It was custom made by the PS>Attack Build Tool on " + attackDate + "\n"; 
             }
             else
             {
                 string buildDate = new StreamReader(assembly.GetManifestResourceStream("PSAttack.Resources.BuildDate.txt")).ReadToEnd();
                 buildString = "It was built on " + buildDate + "\nIf you'd like a version of PS>Attack thats even harder for AV \nto detect checkout http://github.com/jaredhaight/PSAttackBuildTool \n";
+                builtWithBuildTool = false;
             }
+
+            // setup debug variable
+            String debugCmd = "$debug = @{'psaVersion'='" + Strings.version + "';'osVersion'='" + Environment.OSVersion.ToString() + "';'.NET'='" + System.Environment.Version + "';'isAdmin'='" + isAdmin + "';'builtWithBuildTool'='" + builtWithBuildTool.ToString() + "'}";
+            attackState.cmd = debugCmd;
+            Processing.PSExec(attackState);
+
+            // print intro
+            Console.ForegroundColor = PSColors.introText;
             Console.WriteLine(Strings.welcomeMessage, Strings.version, buildString);
+
             // Display Prompt
             attackState.ClearLoop();
             attackState.ClearIO();
