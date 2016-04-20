@@ -47,16 +47,26 @@ namespace PSAttack
 
             // check for admin 
             Boolean isAdmin = false;
+            Boolean debugProc = false;
             if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
             {
                 isAdmin = true;
-                System.Diagnostics.Process.EnterDebugMode();
+                try
+                {
+                    System.Diagnostics.Process.EnterDebugMode();
+                    debugProc = true;
+                }
+                catch
+                {
+                    Console.Write("Could not grab debug rights for process.");
+                }
             }
             
             // Setup Console
             Console.Title = Strings.windowTitle;
             Console.BufferHeight = Int16.MaxValue - 10;
             Console.BackgroundColor = PSColors.background;
+            Console.TreatControlCAsInput = true;
             Console.Clear();
 
             // get build info
@@ -75,7 +85,9 @@ namespace PSAttack
             }
 
             // setup debug variable
-            String debugCmd = "$debug = @{'psaVersion'='" + Strings.version + "';'osVersion'='" + Environment.OSVersion.ToString() + "';'.NET'='" + System.Environment.Version + "';'isAdmin'='" + isAdmin + "';'builtWithBuildTool'='" + builtWithBuildTool.ToString() + "'}";
+            String debugCmd = "$debug = @{'psaVersion'='" + Strings.version + "';'osVersion'='" + Environment.OSVersion.ToString() + "';'.NET'='"
+                + System.Environment.Version + "';'isAdmin'='"+ isAdmin + "';'builtWithBuildTool'='" + builtWithBuildTool.ToString() +"';'debugRights'='"
+                + debugProc + "'}";
             attackState.cmd = debugCmd;
             Processing.PSExec(attackState);
 

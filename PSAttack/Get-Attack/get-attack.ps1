@@ -155,7 +155,7 @@ Powercat\Powercat.ps1,Powercat,Recon; Exfiltration; Backdoors,Netcat - The Power
 	{
 		Write-Verbose "Searching Attacks for $term.."
 		$results = $attacks | Where-Object {$_.Description -like "*" + $term + "*" -or $_.Type -like "*" + $term + "*"}
-		return $results
+		return $results | format-list
 	}
 	else
 	{
