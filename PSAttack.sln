@@ -13,20 +13,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
-		Release|Any CPU = Release|Any CPU
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Debug|x64.ActiveCfg = Debug|x64
 		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Debug|x64.Build.0 = Debug|x64
-		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Debug|x86.ActiveCfg = Debug|x86
+		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Debug|x86.Build.0 = Debug|x86
 		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Release|x64.ActiveCfg = Release|x64
 		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Release|x64.Build.0 = Release|x64
+		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Release|x86.ActiveCfg = Release|x86
+		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

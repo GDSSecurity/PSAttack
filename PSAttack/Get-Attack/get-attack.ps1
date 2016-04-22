@@ -127,16 +127,19 @@ Nishang\DNS-TXT-Pwnage.ps1,DNS-TXT-Pwnage,Backdoor,A backdoor capable of recievi
 Nishang\Get-Information.ps1,Get-Information,Recon,Nishang Payload which gathers juicy information from the target.
 Nishang\Get-WLAN-Keys.ps1,Get-WLAN-Keys,Passwords,Nishang Payload which dumps keys for WLAN profiles.
 Nishang\Invoke-PsUACme.ps1,Invoke-PsUACme,Escalation,Nishang script which uses known methods to bypass UAC.
-Inveigh\Inveigh.ps1,Invoke-Inveigh,Recon; Passwords,Inveigh is a Windows PowerShell LLMNR/NBNS spoofer with challenge/response capture over HTTP(S)/SMB and NTLMv2 HTTP to SMB relay.
-Inveigh\Inveigh.ps1,Get-Inveigh,Recon; Passwords,Get-Inveigh will display queued Inveigh output.
-Inveigh\Inveigh.ps1,Get-InveghLog,Recon; Passwords,Get-InveighLog will get log.
-Inveigh\Inveigh.ps1,Get-InveighNTLM,Recon; Passwords,Get-InveighNTLM will get all captured challenge/response hashes
-Inveigh\Inveigh.ps1,Get-InveighNTLMv1,Recon; Passwords,Get-InveighNTLMv1 will get captured NTLMv1 challenge/response hashes.
-Inveigh\Inveigh.ps1,Get-InveighNTLMv2,Recon; Passwords,Get-InveighNTLMv2 will get captured NTLMv1 challenge/response hashes.
-Inveigh\Inveigh.ps1,Get-InveighStats,Recon; Passwords,Get-InveighStats displays NTLM stats
-Inveigh\Inveigh.ps1,Stop-Inveigh,Recon; Passwords,Stop-InveighRelay will stop all running Inveigh functions.
-Inveigh\Inveigh.ps1,Watch-Inveigh,Recon; Passwords,Watch-Inveigh will enabled real time console output. If using this function through a shell test to ensure that it doesnt hang the shell.
-Powercat\Powercat.ps1,Powercat,Recon; Exfiltration; Backdoors,Netcat - The Powershell Version'
+Kevin-Robertson\Inveigh\Inveigh.ps1,Invoke-Inveigh,Recon; Passwords,Inveigh is a Windows PowerShell LLMNR/NBNS spoofer with challenge/response capture over HTTP(S)/SMB and NTLMv2 HTTP to SMB relay.
+Kevin-Robertson\Inveigh\Inveigh.ps1,Get-Inveigh,Recon; Passwords,Get-Inveigh will display queued Inveigh output.
+Kevin-Robertson\Inveigh\Inveigh.ps1,Get-InveghLog,Recon; Passwords,Get-InveighLog will get log.
+Kevin-Robertson\Inveigh\Inveigh.ps1,Get-InveighNTLM,Recon; Passwords,Get-InveighNTLM will get all captured challenge/response hashes
+Kevin-Robertson\Inveigh\Inveigh.ps1,Get-InveighNTLMv1,Recon; Passwords,Get-InveighNTLMv1 will get captured NTLMv1 challenge/response hashes.
+Kevin-Robertson\Inveigh\Inveigh.ps1,Get-InveighNTLMv2,Recon; Passwords,Get-InveighNTLMv2 will get captured NTLMv1 challenge/response hashes.
+Kevin-Robertson\Inveigh\Inveigh.ps1,Get-InveighStats,Recon; Passwords,Get-InveighStats displays NTLM stats
+Kevin-Robertson\Inveigh\Inveigh.ps1,Stop-Inveigh,Recon; Passwords,Stop-InveighRelay will stop all running Inveigh functions.
+Kevin-Robertson\Inveigh\Inveigh.ps1,Watch-Inveigh,Recon; Passwords,Watch-Inveigh will enabled real time console output. If using this function through a shell test to ensure that it doesnt hang the shell.
+Powercat\Powercat.ps1,Powercat,Recon; Exfiltration; Backdoors,Netcat - The Powershell Version
+jaredhaight\Invoke-MetasploitPayload.ps1,Invoke-MetasploitPayload,Backdoor;Execution;Escalation,Downloads and runs a Metasploit Payload via the Metasploit Web Delivery Module.
+Kevin-Robertson\Tater\Tater.ps1,Invoke-Tater,Escalation,Uses the "Hot Potato" exploit to escalate privileges.
+FuzzySecurity\PowerShell-Suite\Invoke-MS16-032.ps1,Invoke-MS16-032,Escalation,Exploits MS16-032 to spawn a cmd prompt running as SYSTEM.'
 
     Write-Verbose "Checking Attacks.."
     try {

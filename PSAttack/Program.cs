@@ -84,10 +84,17 @@ namespace PSAttack
                 builtWithBuildTool = false;
             }
 
+            // Figure out if we're 32 or 64bit
+            string arch = "64bit";
+            if (IntPtr.Size == 4)
+            {
+                arch = "32bit";
+            }
+
             // setup debug variable
             String debugCmd = "$debug = @{'psaVersion'='" + Strings.version + "';'osVersion'='" + Environment.OSVersion.ToString() + "';'.NET'='"
                 + System.Environment.Version + "';'isAdmin'='"+ isAdmin + "';'builtWithBuildTool'='" + builtWithBuildTool.ToString() +"';'debugRights'='"
-                + debugProc + "'}";
+                + debugProc + "';'arch'='" + arch + "'}";
             attackState.cmd = debugCmd;
             Processing.PSExec(attackState);
 

@@ -30,27 +30,6 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
@@ -80,6 +59,25 @@
   <PropertyGroup />
   <PropertyGroup>
     <ApplicationIcon>punch_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -111,26 +109,29 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Get-Attack\get-attack.ps1" />
-    <EmbeddedResource Include="Modules\6D6QI_WmqVa+spbjyphFduZJIURYs76mavr8JdDGPCo=.ps1.enc" />
-    <EmbeddedResource Include="Modules\7OauJ8dBVEtRWWm+QSO4Ww==.ps1.enc" />
-    <EmbeddedResource Include="Modules\9fgWK_zvZvR7g2vMgVp3SrRSIaNc+7UNvXrhh26S+znZgHC5LEFsA2k_qHVqBlNm.ps1.enc" />
-    <EmbeddedResource Include="Modules\DIfWVwQ8vZd3NSaDygUBHJ_ObWpK1UjmZ8eozPhZMsG_Q17Ibbobrg1pYNvl2w6M.ps1.enc" />
-    <EmbeddedResource Include="Modules\GrX887m18UghimmD6OyK+7FUsb_PmysoY85dVyOLUYw=.ps1.enc" />
-    <EmbeddedResource Include="Modules\l8vlvZT6j1MdEsw2FYig73cXWEjS+3nhmQocaIZOAGk=.ps1.enc" />
-    <EmbeddedResource Include="Modules\lAjcl1bPncwXsGINbJ3LBg==.ps1.enc" />
-    <EmbeddedResource Include="Modules\LQnPMsyFCalhvcvQvgFSkwiYMnpXpACSw8Lg93QPwlFXJOLQBiyveb0TMmS4EADL.ps1.enc" />
-    <EmbeddedResource Include="Modules\oW+dPwvt+oaPUkFjAy3mnJ+7ErIHu_mMSgH2ZV2NXAs=.ps1.enc" />
-    <EmbeddedResource Include="Modules\oWlPTrNhnB6LskM5GKXQMB+YHn90oHyFP9bBgeiNTvJIxFMWSTFuuFMNIhqmcfkT.ps1.enc" />
-    <EmbeddedResource Include="Modules\Qq_spCyXkgFrPoeqrrjlUgqVaRK2Ytu5xXrI5p1HKSc=.ps1.enc" />
-    <EmbeddedResource Include="Modules\SJGSeisj8lNZxus23bqqtckotmfa3CqtDMVTQr78c1Y=.ps1.enc" />
-    <EmbeddedResource Include="Modules\T+61baFyT+EE7d5a02OgvZFv4SODop0xPAGq1Mc0ijo=.ps1.enc" />
-    <EmbeddedResource Include="Modules\th3M8xO6s3V4hATjGrLUvmgBg2hgi7mH4MhKrzmi8RM=.ps1.enc" />
-    <EmbeddedResource Include="Modules\uHZVRf_IqhABygnaPEpm3ZSVMPGGmEn+I2LljkrQfJo=.ps1.enc" />
-    <EmbeddedResource Include="Modules\uyBTIa8bqP57PUoKNJRPY+fWqQGtCnTVenFHAy+he1k=.ps1.enc" />
-    <EmbeddedResource Include="Modules\VtL+nis4U0EN+FYPNKhrh1WyJLONMdl2+f98FzwguNhpK6OrDa1W30AcJwJZXZJF.ps1.enc" />
-    <EmbeddedResource Include="Modules\VwEtzrrlnHpv2ShQj9QIl8rjI8YiIpGhJ6Q4D2MnLs0=.ps1.enc" />
-    <EmbeddedResource Include="Modules\xD39xauMvBbG1qV5rZdyqbTC40nTVDDSJQ2MaoqcLrhVZ9Y598qd7VHJNYY_rgvC.ps1.enc" />
-    <EmbeddedResource Include="Modules\_hg7_YYj4zUtXv7m_EBaTbGpk2u0JYaTWBRdK1jku58=.ps1.enc" />
+    <EmbeddedResource Include="Modules\+I9AtZCyXLyZpHAejwURRg==.ps1.enc" />
+    <EmbeddedResource Include="Modules\0L9lK66Js2rn0NvMkSaUs+YEwPajKpXIi6NJ52BUn9I=.ps1.enc" />
+    <EmbeddedResource Include="Modules\0_fyGLrvvI4RH+336hgBfPO9Y8OkUO+xdNgTjQv1ask=.ps1.enc" />
+    <EmbeddedResource Include="Modules\1ASJ+e_C5AoDkEWdi7W3xnBn4m55pUv38E0FEgvTFfY=.ps1.enc" />
+    <EmbeddedResource Include="Modules\2Oqy5OxvUJp3l6nix8ULxO0S4mhfB2mbxXcfS6wJZ8Em3kICrarpS30oL7UOg9t9.ps1.enc" />
+    <EmbeddedResource Include="Modules\2u8Dvgp8uQZk+hy0fCg_YsSNHvQ3y3nuH2_7L86T7zY=.ps1.enc" />
+    <EmbeddedResource Include="Modules\3PDSYrxPWtkt7jvrBUb11o2xxUxviPPM7mO5ZGLYA_xFC35WMyrOIX1TYeMLa0C5.ps1.enc" />
+    <EmbeddedResource Include="Modules\75mhd7Ob8hGlHXfEaVS55ABTFzFGCM0XxN1Z16aH6NE=.ps1.enc" />
+    <EmbeddedResource Include="Modules\9rAbvt9U3G6F6h30VkJyPHo6p2IAi26fnDL4YWQZ9MI=.ps1.enc" />
+    <EmbeddedResource Include="Modules\cd1xLoVfPtsC9Y5IACgiCrnWkGy3UY7vT442i5g2u0VERZBxkKfeHNWmnxklmaY+.ps1.enc" />
+    <EmbeddedResource Include="Modules\dgGgQxlv2ejoiSljbqNsohl7wtkfLNdDN3tZKI+xtPc=.ps1.enc" />
+    <EmbeddedResource Include="Modules\E7JPrT+mukGHLfUVYvbPuFA2OcCmoMeTsIVTHfFLfnvUXJpUeO44jCRnvBnXKjHg.ps1.enc" />
+    <EmbeddedResource Include="Modules\fQBvnj7MwZ2Sf_eYwWwtnBu6PduOYl069HhQPV_UdiA=.ps1.enc" />
+    <EmbeddedResource Include="Modules\gloB72mOCMM80jlFaFf+AZB_ZFgSip9jJfkJi46rpkY=.ps1.enc" />
+    <EmbeddedResource Include="Modules\HhTW5Pux0saJw0XtvZmW_Q==.ps1.enc" />
+    <EmbeddedResource Include="Modules\IlBwNsUC9mNYV6yLuu0rZD58+3WoE43XBFZ2J58a9rE=.ps1.enc" />
+    <EmbeddedResource Include="Modules\lfkDbSj5DuALnH7XQRiqkwQ7MHVPZYHVJlJHDmRbzpK_A5yZ+qnkUidFMMz9rW7k.ps1.enc" />
+    <EmbeddedResource Include="Modules\lk1HvmELnc87VEYT1B30y+ehAciI6pPFqZaqkQPBJYr5wDl9XOMZsFzIw3wm1yNqTlj7wNXXFPsvhrKLp+lH5Q==.ps1.enc" />
+    <EmbeddedResource Include="Modules\lk1HvmELnc87VEYT1B30y4hMSSokMKRyOOyxzx2bWbo=.ps1.enc" />
+    <EmbeddedResource Include="Modules\lk1HvmELnc87VEYT1B30y_XGc_Ar3D+CeOZvdJ8MiCo=.ps1.enc" />
+    <EmbeddedResource Include="Modules\mm2UsmAKVYZh_NHPk3YlXw==.ps1.enc" />
+    <EmbeddedResource Include="Modules\Ra6GoU3qpGVO+2elH63e5qOwvpwCrbC5pzpIYopZYpHEc74Sg9Z8Ka00tr_v4zwi.ps1.enc" />
+    <EmbeddedResource Include="Modules\SAyp+gQ4rmob2dH5pC4SlwmC_VaJrldqpolbVzEdfiw=.ps1.enc" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\attackDate.txt" />
