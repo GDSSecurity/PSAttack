@@ -14,9 +14,9 @@ namespace PSAttack.Utils
         public static string createPrompt(AttackState attackState)
         {
             string prompt = attackState.runspace.SessionStateProxy.Path.CurrentLocation + " #> ";
+            attackState.promptLength = prompt.Length;
             return prompt;
         }
-        
 
         public static void Output(AttackState attackState)
         {
@@ -26,9 +26,16 @@ namespace PSAttack.Utils
             }
             int currentCusorPos = Console.CursorTop;
             string prompt = createPrompt(attackState);
+
+            // This is where we juggle things to make sure the cursor ends up where 
+            // it's expected to be. I'm sure this could be improved on.
+
+            // Clear out typed text after prompt
             Console.SetCursorPosition(prompt.Length, attackState.promptPos);
             Console.Write(new string(' ', Console.WindowWidth));
-            int cursorDiff = currentCusorPos - attackState.promptPos;
+
+            // Clear out any lines below the prompt
+            int cursorDiff = attackState.consoleWrapCount();
             while (cursorDiff > 0)
             {
                 Console.SetCursorPosition(0, attackState.promptPos + cursorDiff);
@@ -36,14 +43,12 @@ namespace PSAttack.Utils
                 cursorDiff -= 1;
             }
             Console.SetCursorPosition(prompt.Length, attackState.promptPos);
+
+            // Re-print the command
             Console.Write(attackState.displayCmd);
-            int consoleWrapCount = attackState.consoleWrapCount();
-            int relativeCursorPos = attackState.relativeCursorPos();
-            if (attackState.cursorPos >= Console.WindowWidth)
-            {
-                attackState.cursorPos = attackState.cursorPos - Console.WindowWidth * consoleWrapCount;
-            }
-            Console.SetCursorPosition(attackState.cursorPos, attackState.promptPos + consoleWrapCount);
+
+            List<int> cursorXY = attackState.getCursorXY();
+            Console.SetCursorPosition(cursorXY[0], cursorXY[1]);
         }
 
         public static void Exception(AttackState attackState, string errorMsg)

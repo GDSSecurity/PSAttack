@@ -8,8 +8,17 @@ using System.Management.Automation.Runspaces;
 using PSAttack.PSAttackShell;
 using PSAttack.Utils;
 
+
 namespace PSAttack.PSAttackProcessing
 {
+    // This item is used to keep track of the various components on the command line
+    public class DisplayCmdComponent
+    {
+        public int Index { get; set; }
+        public string Contents { get; set; }
+        public string Type { get; set; }
+    }
+
     class AttackState
     {
         // Powershell runsapce and host
@@ -37,7 +46,7 @@ namespace PSAttack.PSAttackProcessing
         // The vertical position of the last prompt printed. Used so we know where to start re-writing commands
         public int promptPos { get; set; }
 
-        // cusor position
+        // absolute cusor position (not accounting for wrapping in the window)
         public int cursorPos { get; set; }
         
         // loop states
@@ -55,16 +64,24 @@ namespace PSAttack.PSAttackProcessing
         // used to store command history
         public List<string> history { get; set; }
 
+        public int promptLength { get; set; }
+
+        // used to store list of command components and their types
+        public List<DisplayCmdComponent> cmdComponents { get; set; }
+
+        // used to store index of command compnotent being auto-completed.
+        public int cmdComponentsIndex { get; set; }
+
         // returns total length of display cmd + prompt. Used to check for text wrap in 
         // so we know what to do with our cursor
         public int totalDisplayLength()
         {
-            return Display.createPrompt(this).Length + this.displayCmd.Length;
+            return this.promptLength + this.displayCmd.Length;
         }
 
         public int consoleWrapCount()
         {
-            return Console.CursorTop - this.promptPos;
+            return this.totalDisplayLength() / Console.WindowWidth;
         }
 
         // return cursor pos ignoring window wrapping
@@ -73,7 +90,7 @@ namespace PSAttack.PSAttackProcessing
             int wrapCount = this.consoleWrapCount();
             if (wrapCount > 0)
             {
-                return this.cursorPos + Console.WindowWidth * wrapCount;
+                return this.cursorPos + Console.WindowWidth* wrapCount;
             }
             return this.cursorPos;
         }
@@ -81,14 +98,34 @@ namespace PSAttack.PSAttackProcessing
         // return relative cusor pos without prompt
         public int relativeCmdCursorPos()
         {
-            int promptLength = Display.createPrompt(this).Length;
-            return this.relativeCursorPos() - promptLength;
+            List<int> cursorXY = this.getCursorXY();
+            return this.cursorPos - this.promptLength;
+        }
+
+        // This is used to figure out where the cursor should be placed, accounting for line
+        // wraps in the command and where the prompt is
+        public List<int> getCursorXY()
+        {
+            // figure out if we've dropped down a line
+            int cursorYDiff = this.cursorPos / Console.WindowWidth;
+            int cursorY = this.promptPos + this.cursorPos / Console.WindowWidth;
+            int cursorX = this.cursorPos - Console.WindowWidth * cursorYDiff;
+
+            // if X is < 0, set cursor to end of line
+            if (cursorX < 0) {
+                cursorX = Console.WindowWidth - 1;
+            }
+            List<int> cursorXY = new List<int>();
+            cursorXY.Add(cursorX);
+            cursorXY.Add(cursorY);
+            return cursorXY;
+
         }
 
         // return end of displayCmd accounting for prompt
         public int endOfDisplayCmdPos()
         {
-            return Display.createPrompt(this).Length + this.displayCmd.Length;
+            return this.promptLength + this.displayCmd.Length;
         }
 
         // clear out cruft from autocomplete loops
@@ -99,6 +136,8 @@ namespace PSAttack.PSAttackProcessing
             this.autocompleteSeed = null;
             this.displayCmdSeed = null;
             this.loopPos = 0;
+            this.cmdComponents = null;
+            this.cmdComponentsIndex = -1;
         }
 
         // clear out cruft from working with commands

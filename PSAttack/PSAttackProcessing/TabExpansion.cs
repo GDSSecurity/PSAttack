@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PSAttack.PSAttackProcessing
 {
@@ -12,41 +13,12 @@ namespace PSAttack.PSAttackProcessing
         {
             if (attackState.loopType == null)
             {
-                int lastSpace = attackState.displayCmd.LastIndexOf(" ");
-                if (lastSpace > 0)
-                {
-                    // get the command that we're autocompleting for by looking for the last space and pipe
-                    // anything after the last space we're going to try and autocomplete. Anything between the
-                    // last pipe and last space we assume is a command. 
-                    int lastPipe = attackState.displayCmd.Substring(0, lastSpace + 1).LastIndexOf("|");
-                    attackState.autocompleteSeed = attackState.displayCmd.Substring(lastSpace);
-                    if (lastSpace - lastPipe > 2)
-                    {
-                        attackState.displayCmdSeed = attackState.displayCmd.Substring(lastPipe + 1, (lastSpace - lastPipe));
-                    }
-                    else
-                    {
-                        attackState.displayCmdSeed = attackState.displayCmd.Substring(0, lastSpace);
-                    }
-                    // trim leading space from command in the event of "cmd | cmd"
-                    if (attackState.displayCmdSeed.IndexOf(" ").Equals(0))
-                    {
-                        attackState.displayCmdSeed = attackState.displayCmd.Substring(1, lastSpace);
-                    }
-                }
-                else
-                {
-                    attackState.autocompleteSeed = attackState.displayCmd;
-                    attackState.displayCmdSeed = "";
-                }
-                if (attackState.autocompleteSeed.Length == 0)
-                {
-                    return attackState;
-                }
-
+                attackState.cmdComponents = dislayCmdComponents(attackState);
+            
                 // route to appropriate autcomplete handler
-                attackState.loopType = seedIdentification(attackState.autocompleteSeed);
-                switch (attackState.loopType)
+                DisplayCmdComponent cmdSeed = attackState.cmdComponents[attackState.cmdComponentsIndex];
+                attackState.loopType = cmdSeed.Type;
+                switch (cmdSeed.Type)
                 {
                     case "param":
                         attackState = paramAutoComplete(attackState);
@@ -94,34 +66,49 @@ namespace PSAttack.PSAttackProcessing
                 switch (attackState.loopType)
                 {
                     case "param":
-                        seperator = "-";
+                        seperator = " -";
                         result = attackState.results[attackState.loopPos].ToString();
                         break;
                     case "variable":
-                        seperator = "$";
+                        seperator = " $";
                         result = attackState.results[attackState.loopPos].Members["Name"].Value.ToString();
                         break;
                     case "path":
+                        seperator = " ";
                         result = "\"" + attackState.results[attackState.loopPos].Members["FullName"].Value.ToString() + "\"";
                         break;
                     default:
                         result = attackState.results[attackState.loopPos].BaseObject.ToString();
                         break;
                 }
-                attackState.displayCmd = attackState.displayCmdSeed + seperator + result;
-                attackState.cursorPos = attackState.endOfDisplayCmdPos();
+                // reconstruct display cmd from components
+                string completedCmd = "";
+                int i = 0;
+                int cursorPos = attackState.promptLength;
+                while (i < attackState.cmdComponents.Count())
+                {
+                    if (i == attackState.cmdComponentsIndex)
+                    {
+                        completedCmd += seperator + result;
+                        cursorPos += completedCmd.Length;
+                    }
+                    else
+                    {
+                        completedCmd += attackState.cmdComponents[i].Contents;
+                    }
+                    i++;
+                }
+                attackState.displayCmd = completedCmd;
+                attackState.cursorPos = cursorPos;
             }
             return attackState;
         }
 
         // This function is used to identify chunks of autocomplete text to determine if it's a variable, path, cmdlet, etc
+        // May eventually have to move this to regex to make matches more betterer.
         static String seedIdentification(string seed)
         {
             string seedType = "cmd";
-            if (seed.Length < 2)
-            {
-                seedType = "unknown";
-            }
             if (seed.Contains(" -"))
             {
                 seedType = "param";
@@ -134,24 +121,66 @@ namespace PSAttack.PSAttackProcessing
             {
                 seedType = "path";
             }
+            else if (seed.Length < 4 || seed.First() == ' ')
+            {
+                seedType = "unknown";
+            }
             return seedType;
         }
 
+        // This function splits text on the command line up and identifies each component
+        static List<DisplayCmdComponent> dislayCmdComponents(AttackState attackState)
+        {
+            List<DisplayCmdComponent> results = new List<DisplayCmdComponent>();
+            String[] displayCmdItemList = Regex.Split(attackState.displayCmd, @"(?=[\s])");
+            int index = 0;
+            int cmdLength = attackState.promptLength + 1;
+            foreach (string item in displayCmdItemList)
+            {
+                string itemType = seedIdentification(item);
+                DisplayCmdComponent itemSeed = new DisplayCmdComponent();
+                itemSeed.Index = index;
+                itemSeed.Contents = item;
+                itemSeed.Type = itemType;
+                cmdLength += item.Length;
+                if ((cmdLength > attackState.cursorPos) && (attackState.cmdComponentsIndex == -1))
+                {
+                    attackState.cmdComponentsIndex = index;
+                }
+                if (itemType == "path" || itemType == "unknown")
+                {
+                    if (results.Last().Type == "path")
+                    {
+                        results.Last().Contents +=  itemSeed.Contents;
+                        
+                    }
+                    else
+                    {
+                        results.Add(itemSeed);
+                        index++;
+                    }
+                }
+                else
+                {
+                    results.Add(itemSeed);
+                    index++;
+                }
+            }
+            return results;
+
+        }
         // PARAMETER AUTOCOMPLETE
         static AttackState paramAutoComplete(AttackState attackState)
         {
-            int lastParam = attackState.displayCmd.LastIndexOf(" -");
-            string paramSeed = attackState.displayCmd.Substring(lastParam).Replace(" -", "");
-            String[] displayCmdSeedList = attackState.displayCmdSeed.Split(' ');
-            Array.Reverse(displayCmdSeedList);
-            string result = "";
-            int i = -1;
+            int index = attackState.cmdComponentsIndex;
+            string paramSeed = attackState.cmdComponents[index].Contents.Replace(" -", "");
+            string result = ""; 
             while (result != "cmd")
             {
-                i += 1;
-                result = seedIdentification(displayCmdSeedList[i]);
+                index -= 1;
+                result = attackState.cmdComponents[index].Type;
             }
-            string paramCmd = displayCmdSeedList[i];
+            string paramCmd = attackState.cmdComponents[index].Contents;
             attackState.cmd = "(Get-Command " + paramCmd + ").Parameters.Keys | Where{$_ -like '" + paramSeed + "*'}";
             attackState = Processing.PSExec(attackState);
             return attackState;
@@ -160,7 +189,7 @@ namespace PSAttack.PSAttackProcessing
         // VARIABLE AUTOCOMPLETE
         static AttackState variableAutoComplete(AttackState attackState)
         {
-            string variableSeed = attackState.autocompleteSeed.Replace("$", "");
+            string variableSeed = attackState.cmdComponents[attackState.cmdComponentsIndex].Contents.Replace("$", "");
             attackState.cmd = "Get-Variable " + variableSeed + "*";
             attackState = Processing.PSExec(attackState);
             return attackState;
@@ -169,7 +198,7 @@ namespace PSAttack.PSAttackProcessing
         // PATH AUTOCOMPLETE
         static AttackState pathAutoComplete(AttackState attackState)
         {
-            string pathSeed = attackState.autocompleteSeed.Replace("\"","");
+            string pathSeed = attackState.cmdComponents[attackState.cmdComponentsIndex].Contents.Replace("\"","");
             attackState.cmd = "Get-ChildItem \"" + pathSeed.Trim() + "*\"";
             Console.WriteLine(attackState.cmd);
             attackState = Processing.PSExec(attackState);
@@ -179,7 +208,7 @@ namespace PSAttack.PSAttackProcessing
         // COMMAND AUTOCOMPLETE
         static AttackState cmdAutoComplete(AttackState attackState)
         {
-            attackState.cmd = "Get-Command " + attackState.autocompleteSeed + "*";
+            attackState.cmd = "Get-Command " + attackState.cmdComponents[attackState.cmdComponentsIndex].Contents + "*";
             attackState = Processing.PSExec(attackState);
             return attackState;
         }
