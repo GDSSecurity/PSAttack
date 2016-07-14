@@ -61,7 +61,7 @@ namespace PSAttack.PSAttackProcessing
             // if we have results, format them and return them
             if (attackState.results.Count > 0)
             {
-                string seperator = "";
+                string seperator = " ";
                 string result;
                 switch (attackState.loopType)
                 {
@@ -90,7 +90,7 @@ namespace PSAttack.PSAttackProcessing
                     if (i == attackState.cmdComponentsIndex)
                     {
                         completedCmd += seperator + result;
-                        cursorPos += completedCmd.Length;
+                        cursorPos += completedCmd.TrimStart().Length;
                     }
                     else
                     {
@@ -98,7 +98,7 @@ namespace PSAttack.PSAttackProcessing
                     }
                     i++;
                 }
-                attackState.displayCmd = completedCmd;
+                attackState.displayCmd = completedCmd.TrimStart();
                 attackState.cursorPos = cursorPos;
             }
             return attackState;
