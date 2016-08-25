@@ -7,7 +7,7 @@ namespace PSAttack
 {
     class Strings
     {
-        public static string version = "1.4.2";
+        public static string version = "1.6.0";
         public static string windowTitle = "PSAttack!!";
         public static List<string> psaLogos = new List<string>() {
 @"
@@ -103,21 +103,7 @@ namespace PSAttack
  _|     _____/  _/ _/    _\ \__| \__| \__,_| \___| _|\_\ _) 
 
 " };
-//        public static string warning = @"
-// ############################################################
-// #                                                          #
-// #  PLEASE NOTE: This is an Release Candidate of PS>Attack  #
-// #   Things might be buggy. If you find something that's    #
-// #             broken please submit an issue at             #
-// #     https://github.com/jaredhaight/psattack/issues       #
-// #        or even better, submit a pull request! :-D        #
-// #                                                          #
-// #         For more info view the release notes at          #
-// #   https://www.github.com/jaredhaight/psattack/releases   #
-// #                                                          #
-// ############################################################
 
-//";
         public static string moduleLoadError = "There was an error loading this module \nError message:\n\n{0}\n";
         public static string welcomeMessage = "Welcome to PS>Attack! This is version {0}. \n{1}\nFor help getting started, run 'get-attack'\n";
     }

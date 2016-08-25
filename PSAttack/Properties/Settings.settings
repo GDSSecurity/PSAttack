@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PSAttack.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="encryptionKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">8cOpc1mnZbcpRkvRwqE8jeEvQdxxO67SVM6GP8rLbDdePzAzLVTbI23DCQCaMIgo</Value>
+    </Setting>
+    <Setting Name="valueStore" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">KexMnyvBHcpAfniIdwPEXIgPdlxiUNMrYkSMrnXcdVOYYeoscIbuQssBxijBANhu</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

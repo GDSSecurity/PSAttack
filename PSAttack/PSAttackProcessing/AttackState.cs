@@ -66,6 +66,10 @@ namespace PSAttack.PSAttackProcessing
 
         public int promptLength { get; set; }
 
+        // When PSAttack is built an encrypted CSV is generated containing data that we 
+        // don't want to touch disk. That data is stored here as a dict 
+        public Dictionary<string,string> decryptedStore { get; set; }
+
         // used to store list of command components and their types
         public List<DisplayCmdComponent> cmdComponents { get; set; }
 
@@ -160,8 +164,8 @@ namespace PSAttack.PSAttackProcessing
             Runspace runspace = RunspaceFactory.CreateRunspace(this.host);
             runspace.Open();
             this.runspace = runspace;
-            // init history
             this.history = new List<string>();
+            this.decryptedStore = new Dictionary<string, string>();
             // hack to keep cmd from being null. others parts of psa don't appreciate that.
             this.cmd = "";
             this.displayCmd = "";

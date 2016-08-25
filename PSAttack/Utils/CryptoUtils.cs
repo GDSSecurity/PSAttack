@@ -8,21 +8,14 @@ using System.Net;
 using System.Collections.Generic;
 using System.Reflection;
 
+
 namespace PSAttack.Utils
 {
     class CryptoUtils
     {
-        public static string GetKey()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            StreamReader keyReader = new StreamReader(assembly.GetManifestResourceStream("PSAttack.Modules.key.txt"));
-            string key = keyReader.ReadToEnd();
-            return key;
-        }
-        
         public static string DecryptString(string text)
         {
-            string key = GetKey();
+            string key = Properties.Settings.Default.encryptionKey;
             byte[] keyBytes;
             keyBytes = Encoding.Unicode.GetBytes(key);
 
@@ -41,7 +34,7 @@ namespace PSAttack.Utils
 
         public static MemoryStream DecryptFile(Stream inputStream)
         {
-            string key = GetKey();
+            string key = Properties.Settings.Default.encryptionKey;
             byte[] keyBytes = Encoding.Unicode.GetBytes(key);
 
             Rfc2898DeriveBytes derivedKey = new Rfc2898DeriveBytes(key, keyBytes);

@@ -15,9 +15,6 @@ namespace PSAttack.Utils
     {
         public static void ImportModules(AttackState attackState, Stream moduleStream)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            StreamReader keyReader = new StreamReader(assembly.GetManifestResourceStream("PSAttack.Modules.key.txt"));
-            string key = keyReader.ReadToEnd();
             try
             {
                 MemoryStream decMem = CryptoUtils.DecryptFile(moduleStream);

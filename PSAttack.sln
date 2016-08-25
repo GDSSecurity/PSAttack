@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSattack", "PSAttack\PSattack.csproj", "{DA1B7904-0DDC-45A0-875F-33BBA2236C44}"
 EndProject
@@ -21,12 +21,12 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Debug|x64.ActiveCfg = Debug|x64
 		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Debug|x64.Build.0 = Debug|x64
-		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Debug|x86.ActiveCfg = Debug|x86
-		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Debug|x86.Build.0 = Debug|x86
+		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Debug|x86.Build.0 = Debug|Any CPU
 		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Release|x64.ActiveCfg = Release|x64
 		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Release|x64.Build.0 = Release|x64
-		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Release|x86.ActiveCfg = Release|x86
-		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Release|x86.Build.0 = Release|x86
+		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Release|x86.ActiveCfg = Release|Any CPU
+		{DA1B7904-0DDC-45A0-875F-33BBA2236C44}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

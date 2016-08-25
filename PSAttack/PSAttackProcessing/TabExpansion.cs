@@ -121,10 +121,12 @@ namespace PSAttack.PSAttackProcessing
             {
                 seedType = "path";
             }
-            else if (seed.Length < 4 || seed.First() == ' ')
-            {
-                seedType = "unknown";
-            }
+            // This causes an issue and I can't remember why I added this.. leaving it commented 
+            // for now in case I need to come back to it (2016/08/21)
+            //else if (seed.Length < 4 || seed.First() == ' ')
+            //{
+            //    seedType = "unknown";
+            //}
             return seedType;
         }
 
