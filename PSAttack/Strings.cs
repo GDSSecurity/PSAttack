@@ -105,6 +105,6 @@ namespace PSAttack
 " };
 
         public static string moduleLoadError = "There was an error loading this module \nError message:\n\n{0}\n";
-        public static string welcomeMessage = "Welcome to PS>Attack! This is version {0}. \n{1}\nFor help getting started, run 'get-attack'\n";
+        public static string welcomeMessage = "[Version {0}] {1}\nFor help getting started, run 'get-attack'\n";
     }
 }

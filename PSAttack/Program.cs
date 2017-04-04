@@ -20,7 +20,7 @@ namespace PSAttack
             Random random = new Random();
             int pspLogoInt = random.Next(Strings.psaLogos.Count);
             Console.WriteLine(Strings.psaLogos[pspLogoInt]);
-            Console.WriteLine("PS>Attack is loading...");
+            Console.WriteLine("Loading...");
 
             // create attackState
             AttackState attackState = new AttackState();
@@ -102,16 +102,35 @@ namespace PSAttack
 
             // get build info
             string buildString;
-            string attackDate = new StreamReader(assembly.GetManifestResourceStream("PSAttack.Resources.attackDate.txt")).ReadToEnd();
             Boolean builtWithBuildTool = true;
-            if (attackDate.Length > 12)
+
+            DateTime storedBuildDate = new DateTime();
+            try
+            {
+                storedBuildDate = Convert.ToDateTime(attackState.decryptedStore["buildDate"]);
+            }
+            catch
+            {
+                
+            }
+
+            DateTime textBuildDate = new DateTime();
+            try
+            {
+                string buildDate = new StreamReader(assembly.GetManifestResourceStream("PSAttack.Resources.BuildDate.txt")).ReadToEnd();
+                textBuildDate = Convert.ToDateTime(buildDate);
+            }
+            catch
+            {
+
+            }
+            if (storedBuildDate > textBuildDate)
             {                
-                buildString = "It was custom made by the PS>Attack Build Tool on " + attackDate + "\n"; 
+                buildString = "Build Date " + storedBuildDate + "\n\nThis is a custom baked build.\n"; 
             }
             else
             {
-                string buildDate = new StreamReader(assembly.GetManifestResourceStream("PSAttack.Resources.BuildDate.txt")).ReadToEnd();
-                buildString = "It was built on " + buildDate + "\nIf you'd like a version of PS>Attack thats even harder for AV \nto detect checkout http://github.com/jaredhaight/PSAttackBuildTool \n";
+                buildString = "Build Date " + textBuildDate + "\n\nIf you'd like a version of PS>Attack thats even harder for AV \nto detect checkout http://github.com/jaredhaight/PSAttackBuildTool \n";
                 builtWithBuildTool = false;
             }
 
@@ -141,15 +160,23 @@ namespace PSAttack
             return attackState;
         }
 
+        public class Start
+        {
+            public static void launchPSAttack()
+            {
+                AttackState attackState = PSInit();
+                while (true)
+                {
+                    attackState.keyInfo = Console.ReadKey();
+                    attackState = Processing.CommandProcessor(attackState);
+                    Display.Output(attackState);
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
-            AttackState attackState = PSInit();
-            while (true)
-            {
-                attackState.keyInfo = Console.ReadKey();
-                attackState = Processing.CommandProcessor(attackState);
-                Display.Output(attackState);
-            }
+            Start.launchPSAttack();
         }
     }
 }
